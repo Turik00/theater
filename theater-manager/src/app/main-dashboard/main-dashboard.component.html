@@ -8,7 +8,10 @@
       <movie-search-bar></movie-search-bar>
       <button mat-raised-button color="accent">Search</button>
     </div>
-    <mat-slide-toggle class="search-location-toggle" [(ngModel)]="isSearchLocalDb">{{isSearchLocalDb}}</mat-slide-toggle>
+    <mat-slide-toggle
+      class="search-location-toggle"
+      [(ngModel)]="isSearchLocalDb"
+      >{{isSearchLocalDb ? "Search Movies in local DB" : "Search Movies in TMDB"}}</mat-slide-toggle>
   </section>
   <dashboard-movies-section></dashboard-movies-section>
 </div>

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, switchMap} from 'rxjs/operators';
+import { ExternalMoviesService } from 'src/services/external-movies.service';
 
 @Component({
   selector: 'movie-search-bar',
@@ -10,21 +11,22 @@ import {map, startWith} from 'rxjs/operators';
 })
 export class MovieSearchBarComponent implements OnInit {
 
-  public options: string[] = ['One', 'Two', 'Three'];
+  //TODO: pass the selected to the main: //@Output()optionSelected: EventEmitter<MatAutocompleteSelectedEvent>
+
   public filteredOptions!: Observable<string[]>;
   public myControl = new FormControl();
 
+  constructor (private externalMoviesService: ExternalMoviesService){}
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value)),
+      switchMap(value => this.filter(value)),
     );
   }
 
-  private _filter(value: string): string[] {
+  private filter(value: string): Observable<string[]> {
     const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.externalMoviesService.getAutoCompleteSearchOptions(filterValue);
   }
 
 }
