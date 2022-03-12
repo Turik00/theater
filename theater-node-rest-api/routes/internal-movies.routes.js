@@ -1,6 +1,6 @@
 const express = require('express');
 const internalMovieRoute = express.Router();
-let Movie = require('../models/movie');
+const internalMoviesController = require('../controllers/internal-movies.controller');
 
 // // Add Book
 // bookRoute.route('/add-book').post((req, res, next) => {
@@ -12,16 +12,8 @@ let Movie = require('../models/movie');
 //     }
 //   })
 // });
-// // Get all Book
-// bookRoute.route('/').get((req, res) => {
-//     Book.find((error, data) => {
-//     if (error) {
-//       return next(error)
-//     } else {
-//       res.json(data)
-//     }
-//   })
-// })
+// Get all Movies
+internalMovieRoute.route('/').get(internalMoviesController.allMovies);
 // // Get Book
 // bookRoute.route('/read-book/:id').get((req, res) => {
 //     Book.findById(req.params.id, (error, data) => {
@@ -58,4 +50,4 @@ let Movie = require('../models/movie');
 //     }
 //   })
 // })
-module.exports = bookRoute;
+module.exports = internalMovieRoute;

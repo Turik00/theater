@@ -1,0 +1,14 @@
+<section class="movies-container">
+    <!-- <ng-container *ngFor="let movie of moviesList; trackBy:movie.movieId"> 
+
+    </ng-container> -->
+    <movie-card></movie-card>
+    <mat-paginator
+      (page)="handlePageEvent($event)"
+      [length]="length"
+      [pageSize]="pageSize"
+      [showFirstLastButtons]="showFirstLastButtons"
+      [pageIndex]="pageIndex"
+      aria-label="Select page">
+    </mat-paginator>
+  </section>

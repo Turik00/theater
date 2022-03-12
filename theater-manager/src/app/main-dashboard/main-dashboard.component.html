@@ -1,18 +1,14 @@
 <div class="main-dashboard">
-    <div class="top-header-bar mat-elevation-z6">
-        <h1 class="mat-h1">Theater Management Dashboard</h1>
+  <div class="top-header-bar mat-elevation-z6">
+    <h1 class="mat-h1">Theater Management Dashboard</h1>
+  </div>
+  <section class="search-section">
+    <h2>Welcome. Please search for a movie:</h2>
+    <div class="search">
+      <movie-search-bar></movie-search-bar>
+      <button mat-raised-button color="accent">Search</button>
     </div>
-    <section class="search-section">
-        <h2>Welcome. Please search for a movie:</h2>
-        <div class="search">
-            <movie-search-bar></movie-search-bar> 
-            <button mat-raised-button color="accent">Search</button>
-        </div>
-        <mat-slide-toggle [(ngModel)]="isSearchLocalDb">{{isSearchLocalDb}}</mat-slide-toggle>
-    </section>
-    <section class="movies-container">
-        <!-- <ng-container *ngFor="let movie of moviesList; trackBy:movie.movieId"> 
-
-        </ng-container> -->
-    </section>
+    <mat-slide-toggle [(ngModel)]="isSearchLocalDb">{{isSearchLocalDb}}</mat-slide-toggle>
+  </section>
+  <dashboard-movies-section></dashboard-movies-section>
 </div>

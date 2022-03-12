@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoDb = require("./db/db");
+const internalMovieRoute = require('./routes/internal-movies.routes')
 
 mongoose.connect(mongoDb.db, { useNewUrlParser: true }).then(
   () => {
@@ -17,10 +18,17 @@ const app = express();
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
-    extended: false,
+    extended: false
   })
 );
 app.use(cors());
+
+app.use('/internal-movies', internalMovieRoute);
+
+// Base Route
+app.get('/', (req, res) => {
+  res.send('invaild endpoint');
+});
 
 const port = 8000;
 app.listen(port, () => {
