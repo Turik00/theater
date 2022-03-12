@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoDb = require("./db/db");
-const internalMovieRoute = require('./routes/internal-movies.routes')
+const internalMovieRoute = require('./routes/internal-movies.routes');
+const externalMovieRoute = require('./routes/external-movies.routes');
 
 mongoose.connect(mongoDb.db, { useNewUrlParser: true }).then(
   () => {
@@ -24,6 +25,7 @@ app.use(
 app.use(cors());
 
 app.use('/internal-movies', internalMovieRoute);
+app.use('/external-movies', externalMovieRoute);
 
 // Base Route
 app.get('/', (req, res) => {

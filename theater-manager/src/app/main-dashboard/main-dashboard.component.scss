@@ -26,6 +26,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding-top: 0.5em;
 }
 
 .search{
@@ -35,4 +36,9 @@
     background-color: #fff;
     color: black;
     border-radius: 5px;
+}
+
+.search-location-toggle{
+    width: 90%;
+    padding-bottom: 0.3em;
 }

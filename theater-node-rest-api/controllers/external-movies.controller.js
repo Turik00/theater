@@ -1,0 +1,65 @@
+const axios = require("axios");
+const Movie = require("../models/movie");
+
+const apiKey = "a72ef8c22618c2627948855b78ac20bc";
+const movieSearchUrl = "http://api.themoviedb.org/3/search/movie?query={0}&page={1}&api_key=" + apiKey;
+
+module.exports = {
+
+  searchMovies: (query, page) => {
+    const url = movieSearchUrl.replace("{0}", query).replace("{1}", page);
+    try {
+      return axios.get(url);
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  createSearchAutocompleteResult: (results, optionsNumber) => {
+    const namesOnlyArray = results.results.slice(0, optionsNumber);
+    return namesOnlyArray.map((res) => {
+      return res.title;
+    });
+  },
+
+  createMoviesResult: (results) => {
+    const convertedMoviesArray = [];
+    results.results.forEach((res) => {
+        const convertedMovie = {
+            movieId: res.id,
+            title: res.title,
+            overview: res.overview,
+            releaseDate: res.release_date,
+            posterUrl: res.poster_path,
+            voteAvg: res.vote_average,
+            voteCount: res.vote_count,
+            language: res.original_language,
+            isInLocalDB: false
+        };
+        convertedMoviesArray.push(convertedMovie);
+    });
+    return {
+        page: results.page,
+        results: convertedMoviesArray,
+        totalPages: results.total_pages,
+        totalResults: results.total_results
+    };
+  },
+
+  checkWhichMoviesExistsInLocalDB: (movies, res) => {
+    Movie.find({}, function (error, dbMovies) {
+        if (error){
+            console.log(error);
+        }
+        else {
+            movies.forEach(movie => {
+                const dbMovie = dbMovies.find(dbMovie => dbMovie.movieId === movie.movieId);
+                if (dbMovie != null) {
+                    movie.isInLocalDB = true;
+                }
+            });
+            res.status(200).json(movies);
+        }
+    });
+  }
+};

@@ -11,12 +11,6 @@ let Movie = new Schema(
     overview: {
       type: String,
     },
-    genres: {
-      type: [String],
-    },
-    runtime: {
-      type: Number,
-    },
     releaseDate: {
       type: String,
     },
