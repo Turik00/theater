@@ -4,9 +4,9 @@
       <input type="text"
              placeholder="Select a movie"
              matInput
-             [formControl]="myControl"
+             [formControl]="searchMoviesCtrl"
              [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionActivated)="onOptionActivated($event)" (optionSelected)="onOptionSelected($event)">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
           {{option}}
         </mat-option>

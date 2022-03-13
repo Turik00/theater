@@ -1,10 +1,18 @@
 <mat-card class="card-area">
     <mat-card-title-group>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Medium</mat-card-subtitle>
-      <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" >
+      <mat-card-title>{{movie.title}}</mat-card-title>
+      <mat-card-subtitle>Release Date: {{movie.releaseDate}}</mat-card-subtitle>
+      <mat-card-subtitle>Language: {{movie.language}}</mat-card-subtitle>
+      <mat-card-subtitle>Rating: {{movie.voteAvg}} of {{movie.voteCount}} votes</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="movie.isInLocalDB" class="movie-saved-msg">This movie is saved in the local DB</mat-card-subtitle>
+      <img mat-card-md-image src="{{movieImageUrl+movie.posterUrl}}" >
     </mat-card-title-group>
     <mat-card-content>
-      {{longText}}
+      {{movie.overview}}
     </mat-card-content>
+    <mat-card-actions>
+      <!-- <mat-icon *ngIf="movie.isInLocalDB" title="This movie is saved in the local DB">home</mat-icon> -->
+      <button *ngIf="!movie.isInLocalDB" mat-button (click)="saveMovie()">Save to local DB</button>
+      <button *ngIf="movie.isInLocalDB" mat-button (click)="deleteMovie()">Remove from local DB</button>
+    </mat-card-actions>
   </mat-card>

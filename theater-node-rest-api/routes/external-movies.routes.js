@@ -6,7 +6,7 @@ externalMovieRoute.get("/search-movies/:query/:page", function (req, res) {
   externalMoviesController
     .searchMovies(req.params.query, req.params.page)
     .then((result) => externalMoviesController.createMoviesResult(result.data))
-    .then(result => externalMoviesController.checkWhichMoviesExistsInLocalDB(result.results, res))
+    .then(result => externalMoviesController.checkWhichMoviesExistsInLocalDB(result, res))
     .catch((err) => res.status(500).send(err));
 });
 

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { IMovie, IMoviesSearchResult } from 'src/types';
 
 @Component({
   selector: 'dashboard-movies-section',
@@ -8,19 +9,33 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class DashboardMoviesSectionComponent implements OnInit {
 
-  length = 500;
-  pageSize = 10;
-  pageIndex = 0;
-  pageSizeOptions = [5, 10, 25];
-  showFirstLastButtons = true;
 
-  handlePageEvent(event: PageEvent) {
+  @Input() set movies(value: IMoviesSearchResult | null) {
+    if (value == null) {
+      return;
+    }
+    this.length = value.totalResults;
+    this.pageIndex = value.page;
+    this.moviesList = value.results;
+  }
+
+  public moviesList!: IMovie[];
+  public length = 500;
+  public pageSize = 20;
+  public pageIndex = 0;
+  public showFirstLastButtons = true;
+
+  ngOnInit(): void {
+  }
+
+  public trackByFn(index: number, item: IMovie) {
+    return item.movieId;
+  }
+
+  public handlePageEvent(event: PageEvent) {
     this.length = event.length;
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
-  }
-
-  ngOnInit(): void {
   }
 
 }

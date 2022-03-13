@@ -17,19 +17,15 @@ module.exports = {
 
   createSearchAutocompleteResult: (results, optionsNumber) => {
 
-    // // create unique:
-    // const unique = (value, index, self) => {
-    //   return self.indexOf(value) === index
-    // }
+    const uniqueFilter = (value, index, self) => {
+      return self.indexOf(value) === index;
+    }
     
-    // const ages = [26, 27, 26, 26, 28, 28, 29, 29, 30]
-    // const uniqueAges = ages.filter(unique)
-    
-    // console.log(uniqueAges)
-    const namesOnlyArray = results.results.slice(0, optionsNumber);
-    return namesOnlyArray.map((res) => {
+    const namesOnlyArray = results.results.map((res) => {
       return res.title;
     });
+    const uniqueAutoCompleteList = namesOnlyArray.filter(uniqueFilter);
+    return uniqueAutoCompleteList.slice(0, optionsNumber);
   },
 
   createMoviesResult: (results) => {
@@ -62,7 +58,7 @@ module.exports = {
             console.log(error);
         }
         else {
-            movies.forEach(movie => {
+            movies.results.forEach(movie => {
                 const dbMovie = dbMovies.find(dbMovie => dbMovie.movieId === movie.movieId);
                 if (dbMovie != null) {
                     movie.isInLocalDB = true;

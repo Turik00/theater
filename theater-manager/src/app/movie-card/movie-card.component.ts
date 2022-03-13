@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { InternalMoviesService } from 'src/services/internal-movies.service';
+import { IMovie } from 'src/types';
+import { movieImageUrl } from '../../consts';
 
 @Component({
   selector: 'movie-card',
@@ -7,11 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MovieCardComponent implements OnInit {
 
-  longText = `The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
-  from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
-  originally bred for hunting.`
+  @Input() movie!: IMovie;
 
+  constructor(private internalMoviesService: InternalMoviesService){}
   ngOnInit(): void {
   }
 
+  public get movieImageUrl() : string {
+    return movieImageUrl;
+  }
+
+  public deleteMovie(){
+    if (this.movie == null) {
+      return;
+    }
+    this.internalMoviesService.deleteMovie(this.movie.movieId);
+  }
+
+  public saveMovie(){
+    if (this.movie == null) {
+      return;
+    }
+    this.internalMoviesService.saveMovie(this.movie);
+  }
 }

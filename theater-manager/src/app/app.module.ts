@@ -10,8 +10,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
 
-import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
@@ -27,7 +27,6 @@ import { DashboardMoviesSectionComponent } from './dashboard-movies-section/dash
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MatAutocompleteModule,
     FormsModule,
@@ -38,7 +37,8 @@ import { DashboardMoviesSectionComponent } from './dashboard-movies-section/dash
     MatSlideToggleModule,
     MatPaginatorModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [MainDashboardComponent]
