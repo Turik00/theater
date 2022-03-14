@@ -1,9 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { MatAutocompleteActivatedEvent, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import {Observable} from 'rxjs';
 import {debounceTime, first, startWith, switchMap} from 'rxjs/operators';
 import { ExternalMoviesService } from 'src/services/external-movies.service';
+import { InternalMoviesService } from 'src/services/internal-movies.service';
 
 @Component({
   selector: 'movie-search-bar',
@@ -14,10 +15,10 @@ export class MovieSearchBarComponent implements OnInit {
   public filteredOptions!: Observable<string[]>;
   public searchMoviesCtrl = new FormControl();
 
+  @Input() useInternalDb: boolean = false;
   @Output() optionSelected = new EventEmitter<string>();
-  @Output() optionActivated = new EventEmitter<string>();
 
-  constructor (private externalMoviesService: ExternalMoviesService){}
+  constructor (private externalMoviesService: ExternalMoviesService, private internalMoviesService: InternalMoviesService){}
   ngOnInit() {
     this.filteredOptions = this.searchMoviesCtrl.valueChanges.pipe(
       debounceTime(300),
@@ -26,22 +27,14 @@ export class MovieSearchBarComponent implements OnInit {
     );
   }
 
-  
-
- 
-
-  
-  public onOptionActivated(ev: MatAutocompleteActivatedEvent){
-    this.optionActivated.emit(ev.option?.value);
-  }
-
   public onOptionSelected(ev: MatAutocompleteSelectedEvent){
     this.optionSelected.emit(ev.option?.value);
   }
 
   private filter(value: string): Observable<string[]> {
     const filterValue = value.toLowerCase();
-    return this.externalMoviesService.getAutoCompleteSearchOptions(filterValue).pipe(first());
+    const service = this.useInternalDb ? this.internalMoviesService : this.externalMoviesService;
+    return service.getAutoCompleteSearchOptions(filterValue).pipe(first());
   }
 
 }

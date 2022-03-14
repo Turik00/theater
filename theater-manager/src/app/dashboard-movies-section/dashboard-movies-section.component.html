@@ -1,17 +1,15 @@
 <section class="movies-container">
+  <mat-paginator
+  (page)="handlePageEvent($event)"
+  [length]="movieListLength"
+  [pageSize]="pageSize"
+  [showFirstLastButtons]="showFirstLastButtons"
+  aria-label="Select page">
+</mat-paginator>
+
   <ng-container *ngIf="moviesList != null">
     <ng-container *ngFor="let movie of moviesList; trackBy: trackByFn">
       <movie-card [movie]="movie"></movie-card>
     </ng-container>
   </ng-container>
-
-  <mat-paginator
-    (page)="handlePageEvent($event)"
-    [length]="length"
-    [pageSize]="pageSize"
-    [showFirstLastButtons]="showFirstLastButtons"
-    [pageIndex]="pageIndex"
-    aria-label="Select page"
-  >
-  </mat-paginator>
 </section>

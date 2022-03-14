@@ -5,13 +5,14 @@
   <section class="search-section">
     <h2>Welcome. Please search for a movie:</h2>
     <div class="search">
-      <movie-search-bar (optionActivated)="onOptionActivated($event)" (optionSelected)="onOptionSelected($event)"></movie-search-bar>
+      <movie-search-bar [useInternalDb]="isSearchLocalDb" (optionSelected)="onOptionSelected($event)"></movie-search-bar>
       <button mat-raised-button color="accent" (click)="search()">Search</button>
     </div>
     <mat-slide-toggle
       class="search-location-toggle"
       [(ngModel)]="isSearchLocalDb"
+      (ngModelChange)="onMovieToggleChange()"
       >{{isSearchLocalDb ? "Search Movies in local DB" : "Search Movies in TMDB"}}</mat-slide-toggle>
   </section>
-  <dashboard-movies-section *ngIf="movies$ != null" [movies]="movies$ | async"></dashboard-movies-section>
+  <dashboard-movies-section *ngIf="movies$ != null" [movies]="movies$ | async" (pageChanged)="changePage($event)"></dashboard-movies-section>
 </div>

@@ -24,13 +24,21 @@ export class MovieCardComponent implements OnInit {
     if (this.movie == null) {
       return;
     }
-    this.internalMoviesService.deleteMovie(this.movie.movieId);
+    // observable is set with 'first operator' so no need to unsubscribe
+    this.internalMoviesService.deleteMovie(this.movie.movieId).subscribe(() => {
+      this.movie.isInLocalDB = false;
+      this.internalMoviesService.notifyMovieStatusChange();
+    });
   }
 
   public saveMovie(){
     if (this.movie == null) {
       return;
     }
-    this.internalMoviesService.saveMovie(this.movie);
+    // observable is set with 'first operator' so no need to unsubscribe
+    this.internalMoviesService.saveMovie(this.movie).subscribe(() => {
+      this.movie.isInLocalDB = true;
+      this.internalMoviesService.notifyMovieStatusChange();
+    });
   }
 }

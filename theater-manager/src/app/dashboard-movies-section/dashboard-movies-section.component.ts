@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IMovie, IMoviesSearchResult } from 'src/types';
 
 @Component({
@@ -9,21 +9,24 @@ import { IMovie, IMoviesSearchResult } from 'src/types';
 })
 export class DashboardMoviesSectionComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output() pageChanged = new EventEmitter<number>();
+
+  public moviesList!: IMovie[];
+  public movieListLength = 0;
+  public pageSize = 20;
+  public showFirstLastButtons = true;
 
   @Input() set movies(value: IMoviesSearchResult | null) {
     if (value == null) {
       return;
     }
-    this.length = value.totalResults;
-    this.pageIndex = value.page;
+    this.movieListLength = value.totalResults;
+    if (this.paginator != null && value.page == 1) {
+      this.paginator.firstPage();
+    }
     this.moviesList = value.results;
   }
-
-  public moviesList!: IMovie[];
-  public length = 500;
-  public pageSize = 20;
-  public pageIndex = 0;
-  public showFirstLastButtons = true;
 
   ngOnInit(): void {
   }
@@ -33,9 +36,7 @@ export class DashboardMoviesSectionComponent implements OnInit {
   }
 
   public handlePageEvent(event: PageEvent) {
-    this.length = event.length;
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
+    this.pageChanged.emit(event.pageIndex);
   }
 
 }
