@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { first, Observable, Subscription } from 'rxjs';
+import { AfterViewInit, Component, OnDestroy, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { ExternalMoviesService } from 'src/services/external-movies.service';
 import { InternalMoviesService } from 'src/services/internal-movies.service';
 import { IMoviesSearchResult } from 'src/types';
@@ -8,7 +8,8 @@ import { MovieSearchBarComponent } from '../movie-search-bar/movie-search-bar.co
 @Component({
   selector: 'main-dashboard',
   templateUrl: './main-dashboard.component.html',
-  styleUrls: ['./main-dashboard.component.scss']
+  styleUrls: ['./main-dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainDashboardComponent implements AfterViewInit, OnDestroy {
 
@@ -19,7 +20,7 @@ export class MainDashboardComponent implements AfterViewInit, OnDestroy {
   private currentlySearchedQuery = '';
   private currentPageNumber = 1;
   private notificationSubscription: Subscription | null = null;
-  constructor(private externalMoviesService: ExternalMoviesService, private internalMoviesService: InternalMoviesService) { }
+  constructor(private externalMoviesService: ExternalMoviesService, private internalMoviesService: InternalMoviesService, private cdr: ChangeDetectorRef) { }
   
 
   ngAfterViewInit(): void {
@@ -27,6 +28,7 @@ export class MainDashboardComponent implements AfterViewInit, OnDestroy {
       if (this.isSearchLocalDb) {
         this.updatePage();
       }
+      this.cdr.detectChanges();
     });
   }
 

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import { MatAutocompleteActivatedEvent, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import {Observable} from 'rxjs';
@@ -9,10 +9,11 @@ import { InternalMoviesService } from 'src/services/internal-movies.service';
 @Component({
   selector: 'movie-search-bar',
   templateUrl: './movie-search-bar.component.html',
-  styleUrls: ['./movie-search-bar.component.scss']
+  styleUrls: ['./movie-search-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieSearchBarComponent implements OnInit {
-  public filteredOptions!: Observable<string[]>;
+  public filteredOptions$!: Observable<string[]>;
   public searchMoviesCtrl = new FormControl();
 
   @Input() useInternalDb: boolean = false;
@@ -20,7 +21,7 @@ export class MovieSearchBarComponent implements OnInit {
 
   constructor (private externalMoviesService: ExternalMoviesService, private internalMoviesService: InternalMoviesService){}
   ngOnInit() {
-    this.filteredOptions = this.searchMoviesCtrl.valueChanges.pipe(
+    this.filteredOptions$ = this.searchMoviesCtrl.valueChanges.pipe(
       debounceTime(300),
       startWith(''),
       switchMap(value => this.filter(value)),
