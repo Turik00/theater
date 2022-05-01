@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "proxy-install": "npm config set proxy http://proxy-chain.intel.com:911 && npm config set https-proxy http://proxy-chain.intel.com:912 && npm install"
   },
   "private": true,
   "dependencies": {

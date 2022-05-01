@@ -1,0 +1,43 @@
+#### deployment file
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      volumes:
+        - name: task-mongo-vol
+          persistentVolumeClaim:
+            claimName: mongo-db-volume-claim
+      containers:
+        - name: mongo
+          image: mongo
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: task-mongo-vol
+              mountPath: /data/db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+spec:
+  selector:
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  
