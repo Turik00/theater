@@ -1,6 +1,4 @@
 const axios = require("axios");
-const HttpProxyAgent = require("http-proxy-agent");
-
 const Movie = require("../models/movie");
 
 const apiKey = "a72ef8c22618c2627948855b78ac20bc";
@@ -11,11 +9,7 @@ module.exports = {
   searchMovies: (query, page) => {
     const url = movieSearchUrl.replace("{0}", query).replace("{1}", page);
     try {
-      const proxyAgent = new HttpProxyAgent('http://proxy-chain.intel.com:911');
-      return axios.get(url, {
-        proxy: false,
-        httpAgent: proxyAgent
-      });
+      return axios.get(url);
     } catch (error) {
       console.error(error);
     }

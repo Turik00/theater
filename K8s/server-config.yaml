@@ -1,7 +1,0 @@
-######ConfigMap 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: server-config
-data:
-  server-url: theater_express
